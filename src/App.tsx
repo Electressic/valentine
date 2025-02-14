@@ -7,6 +7,16 @@ export default function ValentineProposal() {
   const [yesPressed, setYesPressed] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [showNoButton, setShowNoButton] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const messages = [
     "Will you be my Valentine? 💝",
@@ -34,13 +44,16 @@ export default function ValentineProposal() {
 
   useEffect(() => {
     const elements = ["❤️", "💝", "💖", "💕", "💗", "🌹"];
-    const interval = setInterval(() => {
-      createFloatingElement(
-        elements[Math.floor(Math.random() * elements.length)]
-      );
-    }, 100);
+    const interval = setInterval(
+      () => {
+        createFloatingElement(
+          elements[Math.floor(Math.random() * elements.length)]
+        );
+      },
+      isMobile ? 300 : 100
+    ); // Spawn hearts slower on mobile
     return () => clearInterval(interval);
-  }, [createFloatingElement]);
+  }, [createFloatingElement, isMobile]);
 
   const handleNoClick = () => {
     setNoCount(noCount + 1);
@@ -59,8 +72,9 @@ export default function ValentineProposal() {
 
   const handleYesClick = () => {
     setYesPressed(true);
-    for (let i = 0; i < 30; i++) {
-      setTimeout(() => createFloatingElement("💝"), i * 100);
+    const numberOfHearts = isMobile ? 10 : 30; // Less hearts on mobile
+    for (let i = 0; i < numberOfHearts; i++) {
+      setTimeout(() => createFloatingElement("💝"), i * (isMobile ? 200 : 100));
     }
   };
 
