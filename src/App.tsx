@@ -65,7 +65,7 @@ export default function ValentineProposal() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFE6E6] relative flex justify-center items-center overflow-hidden">
+    <div className="min-h-screen bg-[#FFE6E6] relative flex justify-center items-center overflow-hidden px-4">
       <div className="text-center p-8 relative z-10 bg-white/40 backdrop-blur-sm rounded-3xl shadow-xl border-2 border-rose-300">
         <img src={backgroundImage} width={600} alt="Background" />
         <div className="container-area relative">
