@@ -11,10 +11,11 @@ steps:
 
   - name: build
     image: node:20
+    commands:
+      - npm install -g pnpm # Add pnpm installation here
+      - pnpm build
     environment:
       VITE_BASE_URL: /valentine/
-    commands:
-      - pnpm build
     depends_on:
       - install
 
