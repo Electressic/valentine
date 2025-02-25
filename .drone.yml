@@ -1,0 +1,34 @@
+kind: pipeline
+type: docker
+name: valentine-pipeline
+
+steps:
+  - name: install
+    image: node:20
+    commands:
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
+      - pnpm install
+
+  - name: build
+    image: node:20
+    environment:
+      VITE_BASE_URL: /valentine/
+    commands:
+      - pnpm build
+    depends_on:
+      - install
+
+  - name: deploy
+    image: plugins/gh-pages
+    settings:
+      username:
+        from_secret: github_username
+      password:
+        from_secret: github_token
+      pages_directory: dist
+    when:
+      branch:
+        - main
+    depends_on:
+      - build
