@@ -12,7 +12,7 @@ steps:
   - name: build
     image: node:20
     commands:
-      - npm install -g pnpm # Add pnpm installation here
+      - npm install -g pnpm
       - pnpm build
     environment:
       VITE_BASE_URL: /valentine/
@@ -32,3 +32,18 @@ steps:
         - main
     depends_on:
       - build
+
+trigger:
+  status:
+    - success
+    - failure
+    - error
+    - running
+    - pending
+
+notify:
+  webhook:
+    urls:
+      - https://223e-46-223-254-45.ngrok-free.app/webhook
+    method: post
+    content_type: application/json
