@@ -6,8 +6,7 @@ steps:
   - name: install
     image: node:20
     commands:
-      - corepack enable
-      - corepack prepare pnpm@latest --activate
+      - npm install -g pnpm
       - pnpm install
 
   - name: build
