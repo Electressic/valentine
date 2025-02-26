@@ -34,12 +34,7 @@ steps:
       - build
 
 trigger:
-  event:
-    - push
-    - pull_request
-
-trigger:
-  status:
+  status: # Trigger on ALL status changes
     - success
     - failure
     - error
@@ -50,13 +45,5 @@ notify:
   webhook:
     urls:
       - https://8c3a-2a02-8070-4181-f420-d9c9-8790-f258-f11d.ngrok-free.app/webhook
-    events:
-      - build
-      - promote
-      - rollback
-    skip_verify: true # Add this if you're using self-signed certificates
-    when:
-      status:
-        - success
-        - failure
-        - error
+    method: post
+    content_type: application/json
