@@ -54,30 +54,14 @@ steps:
             "event": "{{build.event}}",
             "link": "{{build.link}}",
             "started": {{build.started}},
-            "finished": {{build.finished}},
-            "deployTarget": "{{build.deployTo}}"
+            "finished": {{build.finished}}
           },
           "commit": {
             "sha": "{{commit.sha}}",
-            "ref": "{{commit.ref}}",
             "branch": "{{commit.branch}}",
             "message": "{{commit.message}}",
-            "author": "{{commit.author.login}}",
-            "authorEmail": "{{commit.author.email}}",
-            "authorAvatar": "{{commit.author.avatar}}",
-            "timestamp": {{commit.created}}
-          },
-          "steps": [
-            {{#each steps}}
-            {
-              "name": "{{name}}",
-              "status": "{{status}}",
-              "exitCode": {{exit_code}},
-              "startTime": {{started}},
-              "endTime": {{finished}}
-            },{{#unless @last}},{{/unless}},
-            {{/each}}
-          ]
+            "author": "{{commit.author}}"
+          }
         }
     when:
       status:
