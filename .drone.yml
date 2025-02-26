@@ -42,18 +42,28 @@ steps:
       content_type: application/json
       template: |
         {
-          "repo": "{{repo.name}}",
-          "owner": "{{repo.owner}}",
-          "status": "{{build.status}}",
-          "event": "{{build.event}}",
-          "buildNumber": "{{build.number}}",
-          "buildLink": "{{build.link}}",
+          "build": {
+            "status": "{{build.status}}",
+            "event": "{{build.event}}",
+            "number": "{{build.number}}",
+            "link": "{{build.link}}",
+            "started": "{{build.started}}",
+            "finished": "{{build.finished}}",
+            "deployTarget": "{{build.deployTo}}"
+          },
+          "repo": {
+            "name": "{{repo.name}}",
+            "owner": "{{repo.owner}}",
+            "link": "{{repo.link}}"
+          },
           "commit": {
             "sha": "{{commit.sha}}",
+            "ref": "{{commit.ref}}",
             "branch": "{{commit.branch}}",
             "message": "{{commit.message}}",
             "author": "{{commit.author}}",
             "authorEmail": "{{commit.author.email}}",
+            "authorAvatar": "{{commit.author.avatar}}",
             "timestamp": "{{commit.timestamp}}"
           },
           "steps": [
@@ -61,13 +71,17 @@ steps:
             {
               "name": "{{name}}",
               "status": "{{status}}",
+              "exitCode": "{{exit_code}}",
               "startTime": "{{started}}",
               "endTime": "{{stopped}}",
               "duration": "{{duration}}"
             }{{#unless @last}},{{/unless}}
             {{/each}}
           ],
-          "totalDuration": "{{job.started}} to {{job.finished}}"
+          "pipeline": {
+            "name": "{{pipeline.name}}",
+            "number": "{{pipeline.number}}"
+          }
         }
       debug: true
     when:
@@ -75,8 +89,6 @@ steps:
         - success
         - failure
         - error
-        - pending
-        - running
     depends_on:
       - install
       - build
