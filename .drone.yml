@@ -54,7 +54,8 @@ steps:
             "event": "{{build.event}}",
             "link": "{{build.link}}",
             "started": {{build.started}},
-            "finished": {{build.finished}}
+            "finished": {{build.finished}},
+            "duration": "{{duration build.started build.finished}}"
           },
           "commit": {
             "sha": "{{commit.sha}}",
@@ -68,28 +69,28 @@ steps:
               "status": "{{job.steps.install.status}}",
               "start_time": {{job.steps.install.started}},
               "end_time": {{job.steps.install.stopped}},
-              "duration": {{job.steps.install.duration}}
+              "duration": "{{duration job.steps.install.started job.steps.install.stopped}}"
             },
             {
               "name": "build",
               "status": "{{job.steps.build.status}}",
               "start_time": {{job.steps.build.started}},
               "end_time": {{job.steps.build.stopped}},
-              "duration": {{job.steps.build.duration}}
+              "duration": "{{duration job.steps.build.started job.steps.build.stopped}}"
             },
             {
               "name": "deploy",
               "status": "{{job.steps.deploy.status}}",
               "start_time": {{job.steps.deploy.started}},
               "end_time": {{job.steps.deploy.stopped}},
-              "duration": {{job.steps.deploy.duration}}
+              "duration": "{{duration job.steps.deploy.started job.steps.deploy.stopped}}"
             }
           ],
           "pipeline": {
             "name": "{{pipeline.name}}",
             "started": {{pipeline.started}},
             "finished": {{pipeline.finished}},
-            "duration": {{duration}}
+            "duration": "{{duration pipeline.started pipeline.finished}}"
           }
         }
     when:
