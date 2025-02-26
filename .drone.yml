@@ -54,13 +54,24 @@ steps:
             "event": "{{build.event}}",
             "link": "{{build.link}}",
             "started": {{build.started}},
-            "finished": {{build.finished}}
+            "finished": {{build.stages}},
+            "target": "{{build.target}}",
+            "source": "{{build.source}}",
+            "message": "{{build.message}}",
+
           },
           "commit": {
             "sha": "{{commit.sha}}",
             "branch": "{{commit.branch}}",
             "message": "{{commit.message}}",
             "author": "{{commit.author}}"
+          },
+          "template": {
+            "id": "{{template.id}}",
+            "name": "{{template.name}}",
+            "namespace": "{{template.namespace}}"
+            "data": {{tojson template.data}}
+            "data": {{template.data}}
           },
           "steps": {{tojson build.steps}},
           "pipeline": {
