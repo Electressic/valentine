@@ -37,9 +37,37 @@ steps:
     image: plugins/webhook
     settings:
       urls:
-        - https://webhook.site/ddb8c495-4a98-4bb0-a80e-56398ac4d92c
+        - https://8c3a-2a02-8070-4181-f420-d9c9-8790-f258-f11d.ngrok-free.app/webhook
       method: POST
       content_type: application/json
+      template: |
+        {
+          "repo": {
+            "slug": "{{repo.slug}}"
+          },
+          "build": {
+            "number": {{build.number}},
+            "status": "{{build.status}}",
+            "stages": [
+              {{#each build.stages}}
+              {
+                "steps": [
+                  {{#each steps}}
+                  {
+                    "name": "{{name}}",
+                    "status": "{{status}}",
+                    "started": {{started}},
+                    "finished": {{finished}}
+                  }
+                  {{#unless @last}},{{/unless}}
+                  {{/each}}
+                ]
+              }
+              {{#unless @last}},{{/unless}}
+              {{/each}}
+            ]
+          }
+        }
     when:
       status:
         - success
