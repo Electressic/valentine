@@ -42,34 +42,42 @@ steps:
       content_type: application/json
       template: |
         {
-          "repo": {
-            "slug": "{{repo.slug}}"
+          "repo": "{{repo.name}}",
+          "owner": "{{repo.owner}}",
+          "status": "{{build.status}}",
+          "event": "{{build.event}}",
+          "buildNumber": "{{build.number}}",
+          "buildLink": "{{build.link}}",
+          "commit": {
+            "sha": "{{commit.sha}}",
+            "branch": "{{commit.branch}}",
+            "message": "{{commit.message}}",
+            "author": "{{commit.author}}",
+            "authorEmail": "{{commit.author.email}}",
+            "timestamp": "{{commit.timestamp}}"
           },
-          "build": {
-            "number": {{build.number}},
-            "status": "{{build.status}}",
-            "stages": [
-              {{#each build.stages}}
-              {
-                "steps": [
-                  {{#each steps}}
-                  {
-                    "name": "{{name}}",
-                    "status": "{{status}}",
-                    "started": {{started}},
-                    "finished": {{finished}}
-                  }
-                  {{#unless @last}},{{/unless}}
-                  {{/each}}
-                ]
-              }
-              {{#unless @last}},{{/unless}}
-              {{/each}}
-            ]
-          }
+          "steps": [
+            {{#each job.steps}}
+            {
+              "name": "{{name}}",
+              "status": "{{status}}",
+              "startTime": "{{started}}",
+              "endTime": "{{stopped}}",
+              "duration": "{{duration}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ],
+          "totalDuration": "{{job.started}} to {{job.finished}}"
         }
+      debug: true
     when:
       status:
         - success
         - failure
         - error
+        - pending
+        - running
+    depends_on:
+      - install
+      - build
+      - deploy
