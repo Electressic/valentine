@@ -62,31 +62,12 @@ steps:
             "message": "{{commit.message}}",
             "author": "{{commit.author}}"
           },
-          "steps": [
-            {
-              "name": "install",
-              "status": "{{job.steps.install.status}}",
-              "started": "{{job.steps.install.started}}",
-              "finished": "{{job.steps.install.stopped}}"
-            },
-            {
-              "name": "build",
-              "status": "{{job.steps.build.status}}",
-              "started": "{{job.steps.build.started}}",
-              "finished": "{{job.steps.build.stopped}}"
-            },
-            {
-              "name": "deploy",
-              "status": "{{job.steps.deploy.status}}",
-              "started": "{{job.steps.deploy.started}}",
-              "finished": "{{job.steps.deploy.stopped}}"
-            }
-          ],
+          "steps": {{tojson build.steps}},
           "pipeline": {
             "name": "{{pipeline.name}}",
             "status": "{{pipeline.status}}",
-            "started": "{{pipeline.started}}",
-            "finished": "{{pipeline.finished}}"
+            "started": {{pipeline.started}},
+            "finished": {{pipeline.finished}}
           }
         }
     when:
