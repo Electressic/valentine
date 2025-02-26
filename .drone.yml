@@ -68,17 +68,14 @@ steps:
             "timestamp": {{commit.created}}
           },
           "steps": [
-            {{#each build.stages}}
-              {{#each steps}}
-              {
-                "name": "{{name}}",
-                "status": "{{status}}",
-                "exitCode": {{exit_code}},
-                "startTime": {{started}},
-                "endTime": {{finished}}
-              }{{#unless @last}},{{/unless}}
-              {{/each}}
-            {{#unless @last}},{{/unless}}
+            {{#each steps}}
+            {
+              "name": "{{name}}",
+              "status": "{{status}}",
+              "exitCode": {{exit_code}},
+              "startTime": {{started}},
+              "endTime": {{finished}}
+            }{{#unless @last}},{{/unless}}
             {{/each}}
           ]
         }
