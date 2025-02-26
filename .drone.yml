@@ -61,6 +61,35 @@ steps:
             "branch": "{{commit.branch}}",
             "message": "{{commit.message}}",
             "author": "{{commit.author}}"
+          },
+          "steps": [
+            {
+              "name": "install",
+              "status": "{{job.steps.install.status}}",
+              "start_time": {{job.steps.install.started}},
+              "end_time": {{job.steps.install.stopped}},
+              "duration": {{job.steps.install.duration}}
+            },
+            {
+              "name": "build",
+              "status": "{{job.steps.build.status}}",
+              "start_time": {{job.steps.build.started}},
+              "end_time": {{job.steps.build.stopped}},
+              "duration": {{job.steps.build.duration}}
+            },
+            {
+              "name": "deploy",
+              "status": "{{job.steps.deploy.status}}",
+              "start_time": {{job.steps.deploy.started}},
+              "end_time": {{job.steps.deploy.stopped}},
+              "duration": {{job.steps.deploy.duration}}
+            }
+          ],
+          "pipeline": {
+            "name": "{{pipeline.name}}",
+            "started": {{pipeline.started}},
+            "finished": {{pipeline.finished}},
+            "duration": {{duration}}
           }
         }
     when:
