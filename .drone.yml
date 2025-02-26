@@ -37,7 +37,7 @@ steps:
     image: plugins/webhook
     settings:
       urls:
-        - https://8c3a-2a02-8070-4181-f420-d9c9-8790-f258-f11d.ngrok-free.app/webhook
+        - https://webhook.site/ddb8c495-4a98-4bb0-a80e-56398ac4d92c
       method: POST
       content_type: application/json
       template: |
@@ -75,7 +75,7 @@ steps:
               "exitCode": {{exit_code}},
               "startTime": {{started}},
               "endTime": {{finished}}
-            }{{#unless @last}},{{/unless}}
+            },{{#unless @last}},{{/unless}},
             {{/each}}
           ]
         }
