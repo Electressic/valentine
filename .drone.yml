@@ -54,11 +54,8 @@ steps:
             "event": "{{build.event}}",
             "link": "{{build.link}}",
             "started": {{build.started}},
-            "finished": {{build.stages}},
-            "target": "{{build.target}}",
-            "source": "{{build.source}}",
-            "message": "{{build.message}}",
-
+            "finished": {{build.finished}},
+            "deployTarget": "{{build.deploy_to}}"
           },
           "commit": {
             "sha": "{{commit.sha}}",
@@ -66,20 +63,16 @@ steps:
             "message": "{{commit.message}}",
             "author": "{{commit.author}}"
           },
-          "template": {
-            "id": "{{template.id}}",
-            "name": "{{template.name}}",
-            "namespace": "{{template.namespace}}"
-            "data": {{tojson template.data}}
-            "data": {{template.data}}
-          },
-          "steps": {{tojson build.steps}},
-          "pipeline": {
-            "name": "{{pipeline.name}}",
-            "status": "{{pipeline.status}}",
-            "started": {{pipeline.started}},
-            "finished": {{pipeline.finished}}
-          }
+          "steps": [
+            {{#each steps}}
+            {
+              "name": "{{name}}",
+              "status": "{{status}}",
+              "startTime": {{started}},
+              "endTime": {{finished}}
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+          ]
         }
     when:
       status:
