@@ -42,48 +42,46 @@ steps:
       content_type: application/json
       template: |
         {
-          "build": {
-            "status": "{{build.status}}",
-            "event": "{{build.event}}",
-            "number": "{{build.number}}",
-            "link": "{{build.link}}",
-            "started": "{{build.started}}",
-            "finished": "{{build.finished}}",
-            "deployTarget": "{{build.deployTo}}"
-          },
           "repo": {
+            "slug": "{{repo.slug}}",
             "name": "{{repo.name}}",
             "owner": "{{repo.owner}}",
             "link": "{{repo.link}}"
+          },
+          "build": {
+            "number": {{build.number}},
+            "status": "{{build.status}}",
+            "event": "{{build.event}}",
+            "link": "{{build.link}}",
+            "started": {{build.started}},
+            "finished": {{build.finished}},
+            "deployTarget": "{{build.deployTo}}"
           },
           "commit": {
             "sha": "{{commit.sha}}",
             "ref": "{{commit.ref}}",
             "branch": "{{commit.branch}}",
             "message": "{{commit.message}}",
-            "author": "{{commit.author}}",
+            "author": "{{commit.author.login}}",
             "authorEmail": "{{commit.author.email}}",
             "authorAvatar": "{{commit.author.avatar}}",
-            "timestamp": "{{commit.timestamp}}"
+            "timestamp": {{commit.created}}
           },
           "steps": [
-            {{#each job.steps}}
-            {
-              "name": "{{name}}",
-              "status": "{{status}}",
-              "exitCode": "{{exit_code}}",
-              "startTime": "{{started}}",
-              "endTime": "{{stopped}}",
-              "duration": "{{duration}}"
-            }{{#unless @last}},{{/unless}}
+            {{#each build.stages}}
+              {{#each steps}}
+              {
+                "name": "{{name}}",
+                "status": "{{status}}",
+                "exitCode": {{exit_code}},
+                "startTime": {{started}},
+                "endTime": {{finished}}
+              }{{#unless @last}},{{/unless}}
+              {{/each}}
+            {{#unless @last}},{{/unless}}
             {{/each}}
-          ],
-          "pipeline": {
-            "name": "{{pipeline.name}}",
-            "number": "{{pipeline.number}}"
-          }
+          ]
         }
-      debug: true
     when:
       status:
         - success
