@@ -9,6 +9,15 @@ steps:
       - npm install -g pnpm
       - pnpm install
 
+  - name: test
+    image: node:20
+    commands:
+      - npm install -g pnpm
+      - pnpm install --no-frozen-lockfile
+      - pnpm test
+    depends_on:
+      - install
+
   - name: build
     image: node:20
     commands:
@@ -17,7 +26,7 @@ steps:
     environment:
       VITE_BASE_URL: /valentine/
     depends_on:
-      - install
+      - test # build depends on test
 
   - name: deploy
     image: plugins/gh-pages
@@ -31,8 +40,7 @@ steps:
       branch:
         - main
     depends_on:
-      - build
-
+      - build # deploy depends on build
 trigger:
   branch:
     - main
