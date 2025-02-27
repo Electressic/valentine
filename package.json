@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test": "jest",
+    "test": "jest --coverage",
     "preview": "vite preview",
     "deploy": "vite build && gh-pages -d dist"
   },

@@ -14,7 +14,7 @@ steps:
     commands:
       - npm install -g pnpm
       - pnpm install --no-frozen-lockfile
-      - pnpm test
+      - pnpm test --coverage
     depends_on:
       - install
 
